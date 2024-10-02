@@ -17,7 +17,7 @@ public class FuncionesDirectorio {
             }
         }
     }
-    private void recorrerDirectorio(File directorio) {
+    private void recorrerDirectorio(File directorio) throws NullPointerException{
         for(File fichero : directorio.listFiles()) {
             if(fichero.isFile()) {
                 System.out.println(fichero.getName() + " " +  fichero.length());
