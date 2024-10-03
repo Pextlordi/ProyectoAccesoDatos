@@ -1,11 +1,14 @@
 package org.corella.accesoDatos;
 
 import org.corella.accesoDatos.claseFile.FuncionesDirectorio;
+import org.corella.accesoDatos.claseFile.FileReaderWriter;
 
 public class Main {
     public static void main(String[] args) {
-        FuncionesDirectorio fd = new FuncionesDirectorio();
-        fd.run(args[0]);
+        /*FuncionesDirectorio fd = new FuncionesDirectorio();
+        fd.run(args[0]);*/
+        FileReaderWriter frw = new FileReaderWriter(args[0]);
+        frw.run();
     }
 
     /*
