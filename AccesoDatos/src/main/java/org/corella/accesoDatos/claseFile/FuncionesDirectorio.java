@@ -20,7 +20,7 @@ public class FuncionesDirectorio {
     private void recorrerDirectorio(File directorio) throws NullPointerException{
         for(File fichero : directorio.listFiles()) {
             if(fichero.isFile()) {
-                System.out.println(fichero.getName() + " " +  fichero.length());
+                System.out.println("\t" + fichero.getName() + " " +  fichero.length());
             } else {
                 System.out.println(fichero.getName());
                 recorrerDirectorio(fichero);

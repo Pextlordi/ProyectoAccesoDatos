@@ -1,0 +1,6 @@
+Hola esto es un texto de prueba
+El numero de "a" es: 2
+El numero de "e" es: 5
+El numero de "i" es: 0
+El numero de "o" es: 3
+El numero de "u" es: 2
