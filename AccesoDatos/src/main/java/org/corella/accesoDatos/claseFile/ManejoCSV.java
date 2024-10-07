@@ -22,7 +22,7 @@ public class ManejoCSV {
             while ((linea = lectorLineas.readLine()) != null) {
                 linea = linea.replaceAll(";", "");
                 String [] campos = linea.split(",");
-                if (!(campos[0] == "Nombre")) {
+                if (!campos[0].equals("Nombre")) {
                     listaAlumnos.add(new Alumno(campos));
                 }
             }

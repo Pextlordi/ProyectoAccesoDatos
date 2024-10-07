@@ -51,4 +51,9 @@ public class Alumno {
     public void setNota(double nota) {
         this.nota = nota;
     }
+
+    @Override
+    public String toString() {
+        return "Alumno: " + nombre + " Nota: " + nota + " Curso: " + curso + " Edad: " + edad;
+    }
 }
