@@ -1,10 +1,10 @@
-package org.corella.accesoDatos.entidades;
+package org.corella.accesoDatos.entities;
 
-public class Alumno {
+public class Alumno implements Comparable {
     private String nombre;
-    private double nota;
-    private String curso;
     private int edad;
+    private String curso;
+    private double nota;
 
     public Alumno(String nombre, int edad, String curso, double nota) {
         this.nombre = nombre;
@@ -55,5 +55,25 @@ public class Alumno {
     @Override
     public String toString() {
         return "Alumno: " + nombre + " Nota: " + nota + " Curso: " + curso + " Edad: " + edad;
+    }
+    public String toStringCSV() {
+        return nombre + "," + nota + "," + curso + "," + edad + ";";
+    }
+    @Override
+    public int compareTo (Object o) {
+        Alumno otro = (Alumno) o;
+        if (this.edad < otro.getEdad()) {
+            return -1;
+        } else if (this.edad > otro.getEdad()) {
+            return 1;
+        } else {
+            if(this.nota < otro.getNota()) {
+                return 1;
+            } else if (this.nota > otro.getNota()) {
+                return -1;
+            } else {
+                return this.nombre.compareTo(otro.getNombre());
+            }
+        }
     }
 }

@@ -1,8 +1,6 @@
 package org.corella.accesoDatos;
 
-import org.corella.accesoDatos.claseFile.FuncionesDirectorio;
-import org.corella.accesoDatos.claseFile.FileReaderWriter;
-import org.corella.accesoDatos.claseFile.ManejoCSV;
+import org.corella.accesoDatos.applications.ManejoCSV;
 
 public class Main {
     public static void main(String[] args) {
