@@ -1,15 +1,20 @@
 package org.corella.accesoDatos;
 
+import org.corella.accesoDatos.applications.LeerEscribirObjetos;
 import org.corella.accesoDatos.applications.ManejoCSV;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         /*FuncionesDirectorio fd = new FuncionesDirectorio();
         fd.run(args[0]);*/
         /*FileReaderWriter frw = new FileReaderWriter(args[0]);
         frw.run();*/
-        ManejoCSV manejoCSV = new ManejoCSV();
-        manejoCSV.run(args[0]);
+        /*ManejoCSV manejoCSV = new ManejoCSV();
+        manejoCSV.run(args[0]);*/
+        LeerEscribirObjetos app = new LeerEscribirObjetos();
+        app.run(args[0]);
     }
 
     /*
