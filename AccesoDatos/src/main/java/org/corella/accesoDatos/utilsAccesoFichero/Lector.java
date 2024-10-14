@@ -14,4 +14,12 @@ public class Lector {
     public FileInputStream lectorFlujo(File rutaFichero) throws FileNotFoundException {
         return new FileInputStream(rutaFichero);
     }
+
+    public DataInputStream lectorTipos(String rutaFichero) throws FileNotFoundException {
+        return new DataInputStream(lectorFlujo(new File(rutaFichero)));
+    }
+
+    public ObjectInputStream lectorObjetos(File rutaFichero) throws IOException {
+        return new ObjectInputStream(lectorFlujo(rutaFichero));
+    }
 }

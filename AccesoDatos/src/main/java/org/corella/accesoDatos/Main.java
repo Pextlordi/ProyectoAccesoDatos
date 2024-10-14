@@ -6,7 +6,7 @@ import org.corella.accesoDatos.applications.ManejoCSV;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         /*FuncionesDirectorio fd = new FuncionesDirectorio();
         fd.run(args[0]);*/
         /*FileReaderWriter frw = new FileReaderWriter(args[0]);

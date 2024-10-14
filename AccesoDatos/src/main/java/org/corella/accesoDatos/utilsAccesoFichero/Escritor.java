@@ -14,4 +14,7 @@ public class Escritor {
     public DataOutputStream escritorTipos(String rutaFichero) throws IOException {
         return new DataOutputStream(escritorBytes(rutaFichero));
     }
+    public ObjectOutputStream escritorObjetos(String rutaFichero) throws IOException {
+        return new ObjectOutputStream(escritorBytes(rutaFichero));
+    }
 }
