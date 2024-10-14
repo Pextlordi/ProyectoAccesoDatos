@@ -1,6 +1,9 @@
 package org.corella.accesoDatos.entities;
 
-public class Alumno implements Comparable {
+import java.io.Serializable;
+import java.util.Comparator;
+
+public class Alumno implements Serializable, Comparable {
     private String nombre;
     private int edad;
     private String curso;
@@ -54,10 +57,10 @@ public class Alumno implements Comparable {
 
     @Override
     public String toString() {
-        return "Alumno: " + nombre + " Nota: " + nota + " Curso: " + curso + " Edad: " + edad;
+        return "Alumno: " + nombre + " Edad: " + edad + " Curso: " + curso + " Nota: " + nota;
     }
     public String toStringCSV() {
-        return nombre + "," + nota + "," + curso + "," + edad + ";";
+        return nombre + "," + edad + "," + curso + "," + nota + ";";
     }
     @Override
     public int compareTo (Object o) {
