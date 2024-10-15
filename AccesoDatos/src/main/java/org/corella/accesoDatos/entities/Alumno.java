@@ -22,7 +22,7 @@ public class Alumno implements Serializable, Comparable {
         this.nombre = nombre;
         this.apellido = apellido;
         //Generación de altura entre 1 y 1.97
-        this.altura = (Math.random() * 0.97) + 1.0;
+        this.altura = (Math.random() * 0.87) + 1.1;
         //Aproximación con 2 dígitos
         this.altura = Math.round(this.altura * 100.0) / 100.0;
         //Filtro de edad

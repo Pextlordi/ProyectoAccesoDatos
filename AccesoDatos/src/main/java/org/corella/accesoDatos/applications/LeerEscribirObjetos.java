@@ -118,7 +118,9 @@ public class LeerEscribirObjetos {
         escritorTexto.write(introduccion);
         for (Alumno alumnoLeido : conjuntoAlumnos) {
             if (alumnoLeido.getNota() >= 5) {
-                String contenidoAlumno = alumnoLeido.getNombre() + " " + alumnoLeido.getApellido() + " ha aprobado con un " + alumnoLeido.getNota();
+                String contenidoAlumno = alumnoLeido.getNombre() + " " + alumnoLeido.getApellido() +
+                        " con altura " + alumnoLeido.getAltura() + " y edad " + alumnoLeido.getEdad() +
+                        " años ha aprobado con un " + alumnoLeido.getNota() + " de nota";
                 escritorTexto.newLine();
                 escritorTexto.write(contenidoAlumno);
             }
@@ -137,6 +139,7 @@ public class LeerEscribirObjetos {
         //leerObjeto(Constants.rutaSalidaObjetos);
         escribirClaseAlumnos();
         leerObjeto(Constants.rutaSalidaAlumnos);
+        //Los alumnos se ordenan alfabéticamente según su nombre y luego su apellido
         escribirResumen();
         leerTexto(Constants.rutaSalidaResumen);
     }

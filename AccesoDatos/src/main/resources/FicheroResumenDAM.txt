@@ -1,9 +1,9 @@
 Los alumnos aprobados de la clase de 2DAM son: 
-Alvaro del Cerro ha aprobado con un 8
-Andreia Costán ha aprobado con un 8
-Cristian Wilson ha aprobado con un 6
-Harry Bähr ha aprobado con un 8
-Mohammed Boussaid ha aprobado con un 6
-Nicolas Martín ha aprobado con un 6
-Petteri Ketola ha aprobado con un 6
-Unai Cuesta ha aprobado con un 8
+Andreia Costán con altura 1.65 y edad 32 años ha aprobado con un 6 de nota
+Dikra Asghar con altura 1.72 y edad 36 años ha aprobado con un 6 de nota
+Harry Bähr con altura 1.7 y edad 35 años ha aprobado con un 6 de nota
+Marcos Krasimirov con altura 1.63 y edad 31 años ha aprobado con un 6 de nota
+Mohammed Boussaid con altura 1.86 y edad 43 años ha aprobado con un 8 de nota
+Nicolas Martín con altura 1.69 y edad 34 años ha aprobado con un 6 de nota
+Petteri Ketola con altura 1.77 y edad 38 años ha aprobado con un 6 de nota
+Unai Cuesta con altura 1.73 y edad 36 años ha aprobado con un 6 de nota
