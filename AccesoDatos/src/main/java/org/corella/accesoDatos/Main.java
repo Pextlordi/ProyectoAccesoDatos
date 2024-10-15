@@ -14,7 +14,7 @@ public class Main {
         /*ManejoCSV manejoCSV = new ManejoCSV();
         manejoCSV.run(args[0]);*/
         LeerEscribirObjetos app = new LeerEscribirObjetos();
-        app.run(args[0]);
+        app.run("");
     }
 
     /*
