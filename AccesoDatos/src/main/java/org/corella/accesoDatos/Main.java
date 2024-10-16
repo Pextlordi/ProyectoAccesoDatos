@@ -1,5 +1,6 @@
 package org.corella.accesoDatos;
 
+import org.corella.accesoDatos.applications.FicheroAccesoAleatorio;
 import org.corella.accesoDatos.applications.LeerEscribirObjetos;
 import org.corella.accesoDatos.applications.ManejoCSV;
 
@@ -13,8 +14,11 @@ public class Main {
         frw.run();*/
         /*ManejoCSV manejoCSV = new ManejoCSV();
         manejoCSV.run(args[0]);*/
-        LeerEscribirObjetos app = new LeerEscribirObjetos();
+        /*LeerEscribirObjetos app = new LeerEscribirObjetos();
         app.run(args[0]);
+         */
+        FicheroAccesoAleatorio faa = new FicheroAccesoAleatorio();
+        faa.run();
     }
 
     /*
