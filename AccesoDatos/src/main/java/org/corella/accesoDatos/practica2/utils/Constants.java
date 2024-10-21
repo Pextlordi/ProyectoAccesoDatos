@@ -1,0 +1,23 @@
+package org.corella.accesoDatos.practica2.utils;
+
+public class Constants {
+    public enum Provincias {
+        ÁLAVA, ALBACETE, ALICANTE, ALMERÍA, ASTURIAS, ÁVILA,
+        BADAJOZ, BALEARES, BARCELONA, BURGOS, CÁCERES, CÁDIZ,
+        CANTABRIA, CASTELLÓN, CEUTA, CIUDAD_REAL, CÓRDOBA,
+        CUENCA, GERONA, GRANADA, GUADALAJARA, GUIPÚZCOA,
+        HUELVA, HUESCA, JAÉN, LA_CORUÑA, LA_RIOJA, LAS_PALMAS,
+        LEÓN, LÉRIDA, LUGO, MADRID, MÁLAGA, MELILLA, MURCIA,
+        NAVARRA, ORENSE, PALENCIA, PONTEVEDRA, SALAMANCA,
+        SEGOVIA, SEVILLA, SORIA, TARRAGONA, SANTA_CRUZ_DE_TENERIFE,
+        TERUEL, TOLEDO, VALENCIA, VALLADOLID, VIZCAYA, ZAMORA, ZARAGOZA
+    }
+
+    public enum Irpf {
+        IRPF_5, IRPF_10, IRPF_15
+    }
+
+    public enum Fondo {
+        PENSIONES, INVERSIÓN
+    }
+}

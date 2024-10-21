@@ -44,8 +44,15 @@ public class FicheroAccesoAleatorio {
             }
             String valorCampForm = String.format("%1$-" + longitudCampo + "s", valorCampo);
             escritorAleatorio.write(valorCampForm.getBytes(StandardCharsets.UTF_8), 0, longitudCampo);
+            this.numRegistros++;
         }
         escritorAleatorio.close();
+    }
+
+    public void leer(long postition) throws IOException {
+        RandomAccessFile escritorAleatorio = new RandomAccessFile(this.file, "rwd");
+        escritorAleatorio.seek(postition * this.longitudRegistros);
+        escritorAleatorio.readLine();
     }
 
     public void run() {
@@ -80,6 +87,7 @@ public class FicheroAccesoAleatorio {
             registros.put("NOMBRE","");
             registros.put("NACIONALIDAD","PERUANA");
             escritor.insertar(registros);
+            leer(1);
         } catch (IOException e) {
             System.err.println("ERROR de E/S: " + e.getMessage());
         }
