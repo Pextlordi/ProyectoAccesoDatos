@@ -18,6 +18,6 @@ public class Constants {
     }
 
     public enum Fondo {
-        PENSIONES, INVERSIÓN
+        PENSION, INVERSION
     }
 }
