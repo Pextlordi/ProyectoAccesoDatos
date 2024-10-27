@@ -1,11 +1,15 @@
 package org.corella.accesoDatos.practica2.entities;
 
+import javafx.util.Pair;
+import org.corella.accesoDatos.applications.FicheroAccesoAleatorio;
 import org.corella.accesoDatos.practica2.utils.Constants;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
 
-public class PersonaInfo implements Comparable<PersonaInfo> {
+public class PersonalInfo implements Comparable<PersonalInfo> {
     private String nombre;
     private String apellido1;
     private String apellido2;
@@ -17,7 +21,7 @@ public class PersonaInfo implements Comparable<PersonaInfo> {
     private String numSS;
 
     //Constructor común (Con o sin 2 apellidos)
-    public PersonaInfo(String [] campos) {
+    public PersonalInfo(String [] campos) {
         if (campos.length < 9) {
             String [] camposCopia = new String[campos.length+1];
             System.arraycopy(campos, 0, camposCopia, 0, 2);
@@ -72,6 +76,7 @@ public class PersonaInfo implements Comparable<PersonaInfo> {
         return numSS;
     }
 
+    //Formato de texto
     @Override
     public String toString() {
         if (!apellido2.isEmpty()) {
@@ -81,12 +86,45 @@ public class PersonaInfo implements Comparable<PersonaInfo> {
         }
     }
 
+    public String getInfoAnonimizado() {
+        if (!apellido2.isEmpty()) {
+            return "Nombre: " + nombre + " | Apellido1: " + apellido1 + " | Apellido2: " + apellido2 + " | DirResidencia: " + dirResidencia + "  | DirFiscal: " + dirFiscal + "  | Provincia: " + provincia + " | CodPostal: " + codPostal + " | NumSS: " + numSS;
+        } else {
+            return "Nombre: " + nombre + " | Apellido1: " + apellido1 + " | DirResidencia: " + dirResidencia + "  | DirFiscal: " + dirFiscal + "  | Provincia: " + provincia + " | CodPostal: " + codPostal + " | NumSS: " + numSS;
+        }
+    }
     @Override
-    public int compareTo(PersonaInfo o) {
+    public int compareTo(PersonalInfo o) {
         if(this.provincia.compareTo(o.getProvincia()) != 0) {
             return this.provincia.compareTo(o.getProvincia());
         } else {
-            return this.dni.compareTo(o.getDni());
+            return this.getNombre().compareTo(o.getNombre());
         }
+    }
+
+    //Campos de nuestro fichero
+    public static List<Pair<String, Integer>> getCamposPersonal() {
+        List<Pair<String, Integer>> campos = new ArrayList<>();
+        campos.add(new Pair<>("nombre", 15));
+        campos.add(new Pair<>("apellido1", 15));
+        campos.add(new Pair<>("apellido2", 15));
+        campos.add(new Pair<>("dirResidencia", 40));
+        campos.add(new Pair<>("dirFiscal", 40));
+        campos.add(new Pair<>("provincia", 15));
+        campos.add(new Pair<>("codPostal", 5));
+        campos.add(new Pair<>("dni", 9));
+        campos.add(new Pair<>("numSS", 11));
+        return campos;
+    }
+
+    //Obtención de datos financieros
+    public FinancieroInfo getFinanciero() throws IOException {
+        TreeSet<FinancieroInfo> financieroInfo = new FicheroAccesoAleatorio(Constants.rutaDataFinanciero, FinancieroInfo.getCamposFinanciero()).extractFinanciero();
+        for (FinancieroInfo registroFinanciero : financieroInfo) {
+            if (registroFinanciero.getDni().equals(this.dni)) {
+                return registroFinanciero;
+            }
+        }
+        return null;
     }
 }

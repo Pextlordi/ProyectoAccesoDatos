@@ -1,0 +1,3 @@
+En total hay 2 morosos. Son los siguientes:
+Nombre: Harry | Apellido1: Bahr | DirResidencia: Calle menorca 44  | DirFiscal: Calle santa lucia 9  | Provincia: ALICANTE | CodPostal: 3009 | NumSS: 39589480012| ID: 10 | Balance: -2040.22 | Numero de cuenta: 1153 | Irpf: IRPF_5 | Aportaciones ONG: 2000.0
+Nombre: Mohamed | Apellido1: boussaid | Apellido2: Gimenez | DirResidencia: Avenida de los pilares 53  | DirFiscal: Calle republica 31  | Provincia: VALLADOLID | CodPostal: 47133 | NumSS: 79389123338| ID: 5 | Balance: -1344.0 | Numero de cuenta: 3124 | Irpf: IRPF_10 | Aportaciones ONG: 0.0
