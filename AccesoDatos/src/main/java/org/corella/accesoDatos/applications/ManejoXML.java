@@ -94,14 +94,13 @@ public class ManejoXML {
             transformador.setOutputProperty(OutputKeys.METHOD, "xml");
             transformador.setOutputProperty(OutputKeys.INDENT, "yes");
             transformador.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-            StringWriter sw = new StringWriter();
-            StreamResult rs = new StreamResult(sw);
-            transformador.transform(domSource, rs);
-            FileWriter fr = new FileWriter(new File("src/main/resources/FicheroOutXML.xml"));
-            for (char c : sw.toString().toCharArray()) {
-                fr.write(c);
-            }
-            fr.close();
+            //StringWriter sw = new StringWriter();
+            //StreamResult rs = new StreamResult(sw);
+            //transformador.transform(domSource, rs);
+            FileWriter fw = new FileWriter(new File("src/main/resources/FicheroOutXML.xml"));
+            StreamResult rs2 = new StreamResult(fw);
+            transformador.transform(domSource, rs2);
+            fw.close();
         } catch (ParserConfigurationException | TransformerException | IOException e) {
             System.err.println(e.getMessage());
         }
