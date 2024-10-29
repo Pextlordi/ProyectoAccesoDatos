@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<clientes>
+    <cliente DNI="123456789X">
+        <nombre>Alejandro</nombre>
+    </cliente>
+</clientes>

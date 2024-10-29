@@ -1,15 +1,12 @@
 package org.corella.accesoDatos.applications;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.w3c.dom.*;
 
 import javax.xml.parsers.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
 
 public class ManejoXML {
 
@@ -66,8 +63,53 @@ public class ManejoXML {
         }
     }
 
+    private void escribirXML() {
+        try {
+            //DTD
+            //<clientes>
+            //  <cliente DNI=123456789X>
+            //      <nombre>Alejandro</nombre>
+            //  </cliente>
+            //<clientes>
+            //
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document documento = db.newDocument();
+            documento.setXmlVersion("1.0");
+            //<clientes>
+            Element elementoClientes = documento.createElement("clientes");
+            //Elemento raiz
+            documento.appendChild(elementoClientes);
+            //<cliente>
+            Element elementoCliente = documento.createElement("cliente");
+            elementoClientes.appendChild(elementoCliente);
+            elementoCliente.setAttribute("DNI", "123456789X");
+            //<nombre>
+            Element elementoNombre = documento.createElement("nombre");
+            elementoCliente.appendChild(elementoNombre);
+            elementoNombre.appendChild(documento.createTextNode("Alejandro"));
+            DOMSource domSource = new DOMSource(documento);
+            Transformer transformador = TransformerFactory.newInstance().newTransformer();
+            transformador.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformador.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformador.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformador.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            StringWriter sw = new StringWriter();
+            StreamResult rs = new StreamResult(sw);
+            transformador.transform(domSource, rs);
+            FileWriter fr = new FileWriter(new File("src/main/resources/FicheroOutXML.xml"));
+            for (char c : sw.toString().toCharArray()) {
+                fr.write(c);
+            }
+            fr.close();
+        } catch (ParserConfigurationException | TransformerException | IOException e) {
+            System.err.println(e.getMessage());
+        }
+
+    }
     public void run() {
-        leerXML("pom.xml");
+        //leerXML("pom.xml");
+        escribirXML();
     }
 
 
