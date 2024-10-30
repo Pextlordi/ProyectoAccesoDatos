@@ -1,6 +1,9 @@
 package org.corella.accesoDatos.applications;
 
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -13,12 +16,14 @@ public class ManejoXML {
     private static final String INDENT_LEVEL = " ";
 
     private Document leerXML(String rutaFichero) {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setIgnoringComments(true);
-        dbf.setIgnoringElementContentWhitespace(true);
+        // DTD
+        DocumentBuilderFactory dbf = ValidacionXML.validarXML();
+        // XSD
+        // DocumentBuilderFactory dbf = ValidacionXML.validarXML(new File("src/main/resources/XSDClientes.xsd"));
         Document documentoXML = null;
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
+            db.setErrorHandler(new GestorEventos());
             documentoXML = db.parse(new File(rutaFichero));
             muestraNodo(documentoXML, System.out, 0);
         } catch (FileNotFoundException | ParserConfigurationException e) {
@@ -93,24 +98,51 @@ public class ManejoXML {
             transformador.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             transformador.setOutputProperty(OutputKeys.METHOD, "xml");
             transformador.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformador.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-            //StringWriter sw = new StringWriter();
-            //StreamResult rs = new StreamResult(sw);
-            //transformador.transform(domSource, rs);
-            FileWriter fw = new FileWriter(new File("src/main/resources/FicheroOutXML.xml"));
-            StreamResult rs2 = new StreamResult(fw);
-            transformador.transform(domSource, rs2);
+            //DTD
+            transformador.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "DTDClientes.dtd");
+            transformador.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+            //Salida por pantalla
+            StringWriter sw = new StringWriter();
+            StreamResult sr = new StreamResult(sw);
+            transformador.transform(domSource, sr);
+
+            //Salida a FicheroOutXML.xml
+            FileWriter fw = new FileWriter(new File("src/main/resources/FicheroOutXMLXSD.xml"));
+            StreamResult sr2 = new StreamResult(fw);
+            transformador.transform(domSource, sr2);
             fw.close();
+
         } catch (ParserConfigurationException | TransformerException | IOException e) {
             System.err.println(e.getMessage());
         }
 
     }
+
+    class GestorEventos extends DefaultHandler {
+        @Override
+        public void error(SAXParseException e) throws SAXException {
+            System.err.println("Error recuperable: " + e.getMessage());
+            throw e;
+        }
+
+        @Override
+        public void fatalError(SAXParseException e) throws SAXException {
+            System.err.println("Error no recuperable: " + e.getMessage());
+            throw e;
+        }
+
+        @Override
+        public void warning(SAXParseException e) throws SAXException {
+            System.err.println("Aviso: " + e.getMessage());
+            throw e;
+        }
+    }
+
     public void run() {
         //leerXML("pom.xml");
         escribirXML();
+        leerXML("src/main/resources/FicheroOutXMLDTD.xml");
     }
-
-
 
 }
