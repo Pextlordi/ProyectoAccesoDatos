@@ -9,6 +9,8 @@ import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import java.io.*;
 
 public class ManejoXML {
@@ -16,10 +18,11 @@ public class ManejoXML {
     private static final String INDENT_LEVEL = " ";
 
     private Document leerXML(String rutaFichero) {
-        // DTD
-        DocumentBuilderFactory dbf = ValidacionXML.validarXML();
-        // XSD
-        // DocumentBuilderFactory dbf = ValidacionXML.validarXML(new File("src/main/resources/XSDClientes.xsd"));
+        //DTD
+        //DocumentBuilderFactory dbf = ValidacionXML.validarXML();
+        //XSD
+        DocumentBuilderFactory dbf = ValidacionXML.validarXML(new File("src/main/resources/XSDClientes.xsd"));
+        dbf.setNamespaceAware(true);
         Document documentoXML = null;
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -83,6 +86,9 @@ public class ManejoXML {
             documento.setXmlVersion("1.0");
             //<clientes>
             Element elementoClientes = documento.createElement("clientes");
+            //XSD
+            //elementoClientes.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            //elementoClientes.setAttribute("xsi:schemaLocation", "XSDClientes.xsd");
             //Elemento raiz
             documento.appendChild(elementoClientes);
             //<cliente>
@@ -108,7 +114,7 @@ public class ManejoXML {
             transformador.transform(domSource, sr);
 
             //Salida a FicheroOutXML.xml
-            FileWriter fw = new FileWriter(new File("src/main/resources/FicheroOutXMLXSD.xml"));
+            FileWriter fw = new FileWriter(new File("src/main/resources/FicheroOutXML.xml"));
             StreamResult sr2 = new StreamResult(fw);
             transformador.transform(domSource, sr2);
             fw.close();
@@ -142,7 +148,7 @@ public class ManejoXML {
     public void run() {
         //leerXML("pom.xml");
         escribirXML();
-        leerXML("src/main/resources/FicheroOutXMLDTD.xml");
+        leerXML("src/main/resources/FicheroOutXML.xml");
     }
 
 }

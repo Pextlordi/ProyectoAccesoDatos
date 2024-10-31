@@ -29,15 +29,10 @@ public class ValidacionXML {
         dbf.setIgnoringElementContentWhitespace(true);
         try {
             dbf.setSchema(SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schema));
-
         } catch (SAXException e) {
             throw new RuntimeException(e);
         }
         return dbf;
-    }
-
-    public void run() {
-
     }
 
 }
