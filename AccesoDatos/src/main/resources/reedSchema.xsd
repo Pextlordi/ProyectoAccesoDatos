@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="root">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="course" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="reg_num" type="xs:string"/>
+                            <xs:element name="subj" type="xs:string"/>
+                            <xs:element name="crse" type="xs:string"/>
+                            <xs:element name="sect" type="xs:string"/>
+                            <xs:element name="title" type="xs:string"/>
+                            <xs:element name="units" type="xs:string"/>
+                            <xs:element name="instructor" type="xs:string"/>
+                            <xs:element name="days" type="xs:string"/>
+                            <xs:element name="time">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="start_time" type="xs:string"/>
+                                        <xs:element name="end_time" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="place">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="building" type="xs:string"/>
+                                        <xs:element name="room" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

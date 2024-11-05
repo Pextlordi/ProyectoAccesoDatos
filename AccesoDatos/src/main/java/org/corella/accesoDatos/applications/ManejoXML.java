@@ -12,16 +12,33 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import java.io.*;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class ManejoXML {
 
     private static final String INDENT_LEVEL = " ";
 
-    private Document leerXML(String rutaFichero) {
+    private Document leerXMLDTD(String rutaFichero) {
         //DTD
-        //DocumentBuilderFactory dbf = ValidacionXML.validarXML();
+        DocumentBuilderFactory dbf = ValidacionXML.validarXML();
+        dbf.setNamespaceAware(true);
+        Document documentoXML = null;
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            db.setErrorHandler(new GestorEventos());
+            documentoXML = db.parse(new File(rutaFichero));
+            muestraNodo(documentoXML, System.out, 0);
+        } catch (FileNotFoundException | ParserConfigurationException e) {
+            System.err.println(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return documentoXML;
+    }
+    private Document leerXMLXSD(String rutaFichero) {
         //XSD
-        DocumentBuilderFactory dbf = ValidacionXML.validarXML(new File("src/main/resources/XSDClientes.xsd"));
+        DocumentBuilderFactory dbf = ValidacionXML.validarXML(new File("src/main/resources/reedSchema.xsd"));
         dbf.setNamespaceAware(true);
         Document documentoXML = null;
         try {
@@ -145,10 +162,40 @@ public class ManejoXML {
         }
     }
 
+    private void contarCursos(Document documento) {
+        NodeList listaRepetida = documento.getElementsByTagName("title");
+        TreeSet<String> listaUnica = new TreeSet<>();
+        for (int i = 0; i < listaRepetida.getLength(); i++) {
+            if (listaRepetida.item(i).getChildNodes().item(0) != null) {
+                listaUnica.add(listaRepetida.item(i).getChildNodes().item(0).getNodeValue());
+            }
+
+        }
+        System.out.println("Cursos disponibles: " + listaUnica.size());
+    }
+
+    private void getInstructores(Document documento) {
+        NodeList listaRepetida = documento.getElementsByTagName("instructor");
+        TreeSet<String> listaUnica = new TreeSet<>();
+        for (int i = 0; i < listaRepetida.getLength(); i++) {
+            if (listaRepetida.item(i).getChildNodes().item(0) != null) {
+                listaUnica.add(listaRepetida.item(i).getChildNodes().item(0).getNodeValue());
+            }
+        }
+        System.out.println("Instructores: ");
+        for (String instructor : listaUnica) {
+            System.out.println("- " + instructor);
+        }
+    }
     public void run() {
         //leerXML("pom.xml");
-        escribirXML();
-        leerXML("src/main/resources/FicheroOutXML.xml");
+        //escribirXML();
+        Document documento = leerXMLDTD("src/main/resources/reed.xml");
+        leerXMLXSD("src/main/resources/reed.xml");
+        contarCursos(documento);
+        getInstructores(documento);
     }
+
+
 
 }
