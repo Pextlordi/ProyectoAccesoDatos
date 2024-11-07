@@ -17,9 +17,27 @@ public class ManejoXML {
 
     private static final String INDENT_LEVEL = " ";
 
-    private Document leerXML(String rutaFichero) {
+    private Document leerXMLDTD(String rutaFichero) {
+        System.out.println("Lectura y validación DTD: ");
         //DTD
-        //DocumentBuilderFactory dbf = ValidacionXML.validarXML();
+        DocumentBuilderFactory dbf = ValidacionXML.validarXML();
+        dbf.setNamespaceAware(true);
+        Document documentoXML = null;
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            db.setErrorHandler(new GestorEventos());
+            documentoXML = db.parse(new File(rutaFichero));
+            muestraNodo(documentoXML, System.out, 0);
+        } catch (FileNotFoundException | ParserConfigurationException e) {
+            System.err.println(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return documentoXML;
+    }
+
+    private Document leerXMLXSD(String rutaFichero) {
+        System.out.println("Lectura y validación XSD: ");
         //XSD
         DocumentBuilderFactory dbf = ValidacionXML.validarXML(new File("src/main/resources/XSDClientes.xsd"));
         dbf.setNamespaceAware(true);
@@ -71,60 +89,6 @@ public class ManejoXML {
         }
     }
 
-    private void escribirXML() {
-        try {
-            //DTD
-            //<clientes>
-            //  <cliente DNI=123456789X>
-            //      <nombre>Alejandro</nombre>
-            //  </cliente>
-            //<clientes>
-            //
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document documento = db.newDocument();
-            documento.setXmlVersion("1.0");
-            //<clientes>
-            Element elementoClientes = documento.createElement("clientes");
-            //XSD
-            //elementoClientes.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-            //elementoClientes.setAttribute("xsi:schemaLocation", "XSDClientes.xsd");
-            //Elemento raiz
-            documento.appendChild(elementoClientes);
-            //<cliente>
-            Element elementoCliente = documento.createElement("cliente");
-            elementoClientes.appendChild(elementoCliente);
-            elementoCliente.setAttribute("DNI", "123456789X");
-            //<nombre>
-            Element elementoNombre = documento.createElement("nombre");
-            elementoCliente.appendChild(elementoNombre);
-            elementoNombre.appendChild(documento.createTextNode("Alejandro"));
-            DOMSource domSource = new DOMSource(documento);
-            Transformer transformador = TransformerFactory.newInstance().newTransformer();
-            transformador.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            transformador.setOutputProperty(OutputKeys.METHOD, "xml");
-            transformador.setOutputProperty(OutputKeys.INDENT, "yes");
-            //DTD
-            transformador.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "DTDClientes.dtd");
-            transformador.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-
-            //Salida por pantalla
-            StringWriter sw = new StringWriter();
-            StreamResult sr = new StreamResult(sw);
-            transformador.transform(domSource, sr);
-
-            //Salida a FicheroOutXML.xml
-            FileWriter fw = new FileWriter(new File("src/main/resources/FicheroOutXML.xml"));
-            StreamResult sr2 = new StreamResult(fw);
-            transformador.transform(domSource, sr2);
-            fw.close();
-
-        } catch (ParserConfigurationException | TransformerException | IOException e) {
-            System.err.println(e.getMessage());
-        }
-
-    }
-
     class GestorEventos extends DefaultHandler {
         @Override
         public void error(SAXParseException e) throws SAXException {
@@ -146,9 +110,8 @@ public class ManejoXML {
     }
 
     public void run() {
-        //leerXML("pom.xml");
-        escribirXML();
-        leerXML("src/main/resources/FicheroOutXML.xml");
+        leerXMLDTD("src/main/resources/FicheroOutXML.xml");
+        leerXMLXSD("src/main/resources/FicheroOutXML.xml");
     }
 
 }
