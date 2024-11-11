@@ -1,5 +1,6 @@
 package org.corella.accesoDatos.applications;
 
+import org.exist.xmldb.LocalCollectionManagementService;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -202,13 +203,148 @@ public class ManejoXML {
             }
         return col;
     }
+    private static Collection crearColeccion(String URIentrada, String nombre) throws Exception {
+        String URI = URIentrada;
+
+        /**
+         * args[0] Should be the name of the collection to access
+         * args[1] Should be the name of the resource to read from the collection
+         */
+
+        final String driver = "org.exist.xmldb.DatabaseImpl";
+
+        // initialize database driver
+        Class cl = Class.forName(driver);
+        Database database = (Database) cl.newInstance();
+        database.setProperty("create-database", "true");
+        DatabaseManager.registerDatabase(database);
+
+        Collection col = null;
+        XMLResource res = null;
+        try {
+            // get the collection
+            col = DatabaseManager.getCollection(URI, "admin", "admin");
+            col.setProperty(OutputKeys.INDENT, "no");
+            CollectionManagementService servicio = (CollectionManagementService) col.getService("CollectionManagementService", "1.0");
+            Collection coleccionCreada = servicio.createCollection(nombre);
+            if (coleccionCreada != null) {
+                System.out.println("Coleccion creada");
+            } else {
+                System.out.println("La coleccion no se pudo crear");
+            }
+        } finally {
+            //dont forget to clean up!
+
+            if(res != null) {
+                try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
+            }
+
+            if(col != null) {
+                try { col.close(); } catch(XMLDBException xe) {xe.printStackTrace();}
+            }
+        }
+        return col;
+    }
+
+    private static Collection borrarColeccion(String URIentrada, String nombre) throws Exception {
+        String URI = URIentrada;
+
+        /**
+         * args[0] Should be the name of the collection to access
+         * args[1] Should be the name of the resource to read from the collection
+         */
+
+        final String driver = "org.exist.xmldb.DatabaseImpl";
+
+        // initialize database driver
+        Class cl = Class.forName(driver);
+        Database database = (Database) cl.newInstance();
+        database.setProperty("create-database", "true");
+        DatabaseManager.registerDatabase(database);
+
+        Collection col = null;
+        XMLResource res = null;
+        try {
+            // get the collection
+            col = DatabaseManager.getCollection(URI, "admin", "admin");
+            col.setProperty(OutputKeys.INDENT, "no");
+            CollectionManagementService servicio = (CollectionManagementService) col.getService("CollectionManagementService", "1.0");
+            servicio.removeCollection(nombre);
+            System.out.println("Coleccion se ha intentado borrar");
+        } finally {
+            //dont forget to clean up!
+
+            if(res != null) {
+                try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
+            }
+
+            if(col != null) {
+                try { col.close(); } catch(XMLDBException xe) {xe.printStackTrace();}
+            }
+        }
+        return col;
+    }
+
+    private static Collection crearRecurso(String URIentrada, String nombre) throws Exception {
+        String URI = URIentrada;
+
+        /**
+         * args[0] Should be the name of the collection to access
+         * args[1] Should be the name of the resource to read from the collection
+         */
+
+        final String driver = "org.exist.xmldb.DatabaseImpl";
+
+        // initialize database driver
+        Class cl = Class.forName(driver);
+        Database database = (Database) cl.newInstance();
+        database.setProperty("create-database", "true");
+        DatabaseManager.registerDatabase(database);
+
+        Collection col = null;
+        XMLResource reswrite = null;
+        XMLResource res = null;
+        try {
+            // get the collection
+            col = DatabaseManager.getCollection(URI, "admin", "admin");
+            reswrite = (XMLResource) col.createResource(nombre, "XMLResource");
+            reswrite.setContent("<root><elementoPrueba>contenido</elementoPrueba></root>");
+            col.storeResource(reswrite);
+            if (reswrite != null) {
+                System.out.println("El recurso se ha creado");
+            } else {
+                System.out.println("El recurso no se ha podido crear");
+            }
+
+        } finally {
+            //dont forget to clean up!
+
+            if(res != null) {
+                try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
+            }
+
+            if(col != null) {
+                try { col.close(); } catch(XMLDBException xe) {xe.printStackTrace();}
+            }
+        }
+        return col;
+    }
+
     public void run() {
         //leerXML("pom.xml");
         //escribirXML();
         //leerXML("src/main/resources/FicheroOutXML.xml");
         try {
             //Collection collection = getCollection();
-            Collection collection = obtenerColeccion();
+            //Collection collection = obtenerColeccion();
+            //Crear y borran coleccion.
+            //Crear (con contenido) un recurso y borrar un recurso.
+            // (XMLResource) .setContent
+            //col.createResource() String / sax / DOM
+
+            //crearColeccion("xmldb:exist://localhost:8080/exist/xmlrpc/db", "MiColeccion");
+            //borrarColeccion("xmldb:exist://localhost:8080/exist/xmlrpc/db/apps/demo/data/addresses", "ManualCollection");
+            crearRecurso("xmldb:exist://localhost:8080/exist/xmlrpc/db/MiColeccion", "RecursoCreado.xml");
         } catch (Exception e) {
             e.printStackTrace();
         }
