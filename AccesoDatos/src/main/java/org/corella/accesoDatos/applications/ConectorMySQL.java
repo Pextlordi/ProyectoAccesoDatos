@@ -101,10 +101,18 @@ public class ConectorMySQL {
             anadirJugador(conexion);
             System.out.println(jugador);
             System.out.println(jugador2);
-            conexion.close();
              */
-            empleadosPorDept(conexion);
-            salariosempleados(conexion);
+            //empleadosPorDept(conexion);
+            //salariosempleados(conexion);
+            DepartmentsCRUD gestorDepartamentos = new DepartmentsCRUD(conexion);
+            //gestorDepartamentos.insertar("aaaa", "Prueba");
+            //gestorDepartamentos.actualizarNombre("aaaa", "Cambio1");
+            //gestorDepartamentos.actualizarDepartamento("Cambio1", "bbbb");
+            //gestorDepartamentos.eliminarNombre("Cambio1");
+            //gestorDepartamentos.eliminarDepartamento("aaaa");
+            //gestorDepartamentos.getDepartamentoId("aaaa");
+            //gestorDepartamentos.getDepartamentoNombre("Prueba");
+            conexion.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
