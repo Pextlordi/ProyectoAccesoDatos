@@ -6,6 +6,7 @@ import org.corella.accesoDatos.entities.Salario;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.Callable;
 
 public class ConectorMySQL {
     private static final String driver = "com.mysql.cj.jdbc.Driver";
@@ -92,6 +93,18 @@ public class ConectorMySQL {
 
     }
 
+    private void callable(Connection conexion) throws SQLException {
+            CallableStatement cs = conexion.prepareCall("{CALL SumaDeptAno(?,?)}");
+        cs.setString(1, "Development");
+        cs.setInt(2, 1990);
+        cs.execute();
+        ResultSet resultadoQuery = cs.getResultSet();
+        while (resultadoQuery.next()) {
+            System.out.println(resultadoQuery.getString(1));
+        }
+
+    }
+
     public void run() {
         try {
             Connection conexion = conectarMySQL();
@@ -104,7 +117,7 @@ public class ConectorMySQL {
              */
             //empleadosPorDept(conexion);
             //salariosempleados(conexion);
-            DepartmentsCRUD gestorDepartamentos = new DepartmentsCRUD(conexion);
+            //DepartmentsCRUD gestorDepartamentos = new DepartmentsCRUD(conexion);
             //gestorDepartamentos.insertar("aaaa", "Prueba");
             //gestorDepartamentos.actualizarNombre("aaaa", "Cambio1");
             //gestorDepartamentos.actualizarDepartamento("Cambio1", "bbbb");
@@ -112,6 +125,7 @@ public class ConectorMySQL {
             //gestorDepartamentos.eliminarDepartamento("aaaa");
             //gestorDepartamentos.getDepartamentoId("aaaa");
             //gestorDepartamentos.getDepartamentoNombre("Prueba");
+            callable(conexion);
             conexion.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
