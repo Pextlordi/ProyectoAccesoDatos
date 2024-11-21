@@ -1,10 +1,13 @@
 package org.corella.accesoDatos.applications;
 
+import com.fasterxml.uuid.Jug;
 import org.corella.accesoDatos.entities.Empleado;
+import org.corella.accesoDatos.entities.JugBaloncestoBD;
 import org.corella.accesoDatos.entities.Salario;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.Callable;
 
@@ -12,7 +15,7 @@ public class ConectorMySQL {
     private static final String driver = "com.mysql.cj.jdbc.Driver";
     private String hostname = "localhost";
     private String port = "3306";
-    private String database = "employees";
+    private String database = "BaloncestoDB";
     private String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false";
     private static final String username = "root";
     private static final String password = "admin";
@@ -94,15 +97,46 @@ public class ConectorMySQL {
     }
 
     private void callable(Connection conexion) throws SQLException {
-            CallableStatement cs = conexion.prepareCall("{CALL SumaDeptAno(?,?)}");
+            CallableStatement cs = conexion.prepareCall("{CALL SumaDeptAno(?,?,?)}");
         cs.setString(1, "Development");
         cs.setInt(2, 1990);
+        cs.registerOutParameter(3, Types.DECIMAL);
         cs.execute();
-        ResultSet resultadoQuery = cs.getResultSet();
-        while (resultadoQuery.next()) {
-            System.out.println(resultadoQuery.getString(1));
-        }
+        double res = cs.getDouble(3);
+        System.out.println(res);
+        cs.close(); //Se puede omitir usando un try catch
+    }
 
+    private void callableFunction(Connection conexion) throws SQLException {
+        CallableStatement cs = conexion.prepareCall("{? = CALL SumaDeptAnoFunc(?,?)}");
+        cs.registerOutParameter(1, Types.DECIMAL);
+        cs.setString(2, "Development");
+        cs.setInt(3, 1990);
+        cs.execute();
+        double res = cs.getDouble(1);
+        System.out.println(res);
+        cs.close(); //Se puede omitir usando un try catch
+    }
+
+    private void ejecutarFichero(Connection conexion){
+        String nombreJugador = null;
+        ArrayList<JugBaloncestoBD> listaJugadores = new ArrayList<>();
+        listaJugadores.add(new JugBaloncestoBD("Juan", "Base", 6.4));
+        listaJugadores.add(new JugBaloncestoBD("Aitana", "Alero", 0.6));
+        listaJugadores.add(new JugBaloncestoBD("Miguel", "Escolta", 3.0));
+        try (PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO `Jugadores`(`Nombre`, `Posicion`, `PuntosPartido`) VALUES (?,?,?)")){
+            conexion.setAutoCommit(false);
+            for (JugBaloncestoBD jug : listaJugadores) {
+                sentencia.setString(1, jug.getNombre());
+                sentencia.setString(2, jug.getPosicion());
+                sentencia.setDouble(3, jug.getPuntosPorPartido());
+                sentencia.addBatch();
+            }
+            sentencia.executeBatch();
+            conexion.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void run() {
@@ -125,7 +159,9 @@ public class ConectorMySQL {
             //gestorDepartamentos.eliminarDepartamento("aaaa");
             //gestorDepartamentos.getDepartamentoId("aaaa");
             //gestorDepartamentos.getDepartamentoNombre("Prueba");
-            callable(conexion);
+            //callable(conexion);
+            //callableFunction(conexion);
+            ejecutarFichero(conexion);
             conexion.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
