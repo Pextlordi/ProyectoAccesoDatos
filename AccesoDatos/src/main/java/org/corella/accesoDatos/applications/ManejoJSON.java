@@ -47,9 +47,12 @@ public class ManejoJSON {
 
     private static void writeJacksonJSON() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
+        File fichero = new File("src/main/resources/FicheroOutAlumnos.json");
         ArrayList<String> aSup = new ArrayList<>();
         AlumnoJSON unai = new AlumnoJSON("Unai",aSup,20,false);
-        mapper.writeValue(new File("src/main/resources/FicheroOutAlumnos.json"), unai);
+        mapper.writeValue(fichero, unai);
+        AlumnoJSON miguel = new AlumnoJSON("Miguel",aSup,21, true);
+        mapper.writeValue(fichero, miguel);
     }
 
     private static void readJacksonJSON() throws IOException {
@@ -61,7 +64,7 @@ public class ManejoJSON {
         //escribirJson();
         //serializableOrgJSON();
         //deserializableOrgJSON();
-        //writeJacksonJSON();
+        writeJacksonJSON();
         readJacksonJSON();
     }
 }
