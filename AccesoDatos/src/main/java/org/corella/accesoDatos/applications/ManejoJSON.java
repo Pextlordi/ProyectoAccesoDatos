@@ -1,9 +1,13 @@
 package org.corella.accesoDatos.applications;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONWriter;
+import org.corella.accesoDatos.entities.AlumnoJSON;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class ManejoJSON {
     private void escribirJson() throws IOException {
@@ -22,7 +26,42 @@ public class ManejoJSON {
         objetoJSON.put("Asignaturas_Notas", notasAsignaturas);
         System.out.println(objetoJSON.toString());
     }
+
+    private static void serializableOrgJSON(){
+        Writer demoJson = new StringWriter();
+        JSONWriter writerJson = new JSONWriter(demoJson);
+        writerJson.object();
+        writerJson.key("Nombre").value("Petteri");
+        writerJson.key("Edad").value(23);
+        writerJson.key("Titula").value(true);
+        writerJson.key("AsignaturasSuperadas").array()
+                .value("Base de datos")
+                .value("Programacion")
+                .value("Empresa e iniciativa Emprendedora");
+        writerJson.endArray();
+        writerJson.endObject();
+        System.out.println(demoJson.toString());
+    }
+
+    private static void deserializableOrgJSON() {}
+
+    private static void writeJacksonJSON() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayList<String> aSup = new ArrayList<>();
+        AlumnoJSON unai = new AlumnoJSON("Unai",aSup,20,false);
+        mapper.writeValue(new File("src/main/resources/FicheroOutAlumnos.json"), unai);
+    }
+
+    private static void readJacksonJSON() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        AlumnoJSON alumno = mapper.readValue(new File("src/main/resources/FicheroOutAlumnos.json"),AlumnoJSON.class);
+        System.out.println(alumno);
+    }
     public void run() throws IOException {
-        escribirJson();
+        //escribirJson();
+        //serializableOrgJSON();
+        //deserializableOrgJSON();
+        //writeJacksonJSON();
+        readJacksonJSON();
     }
 }
