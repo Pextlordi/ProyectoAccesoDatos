@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+ <hibernate-configuration>
+    <session-factory>
+        
+    <!-- Propiedades de la conexión -->
+
+	<!-- Driver JDBC -->
+    <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+
+    <!-- Conexión. Añadir ?createDatabaseIfNotExist=true para crear la BBDD  -->
+    <property name="connection.url">jdbc:mysql://localhost:3306/proyecto_orm</property>
+
+    <!-- Usuario y password de la BBDD -->
+    <property name="connection.username">root</property>
+    <property name="connection.password">1234</property>
+
+    <!--  dialecto dentro del conector. Importante para claves ajenas-->
+    <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+    
+    <!-- Configuraciones adicionales -->
+
+    <!-- JDBC connection pool Conexiones concurrentes -->
+    <property name="connection.pool_size">5</property>
+
+    <!-- Una sesion de trabajo por Thread-->
+    <property name="current_session_context_class">thread</property>
+
+
+    <!-- Informa de las operaciones "reales" SQL. Interesante en desarrollo -->
+    <property name="show_sql">true</property>
+    
+    <!-- Mantenimiento de la BBDD -->
+
+    <property name="hbm2ddl.auto">update</property>
+    
+    <!-- opciones de hbm2dll:
+    create : Borra y crea SIEMPRE la base de datos
+    update : Mantiene los datos, actulizando la estructura de la BBDD. Util en     producción.
+    create-drop : Crea todo, y al finalizar el programa lo borra
+    validate: comprueba que las especificaciones del mapeo son validas con el diseño relacional de la BBDD
+    -->
+    
+    <!-- Ficheros de mapeo. Pueden combinarse-->
+
+    <!-- Mapeo DENTRO DE LA CLASE -->
+    <mapping class="org.corella.accesoDatos.hibernate.entities.Departamento"/>
+    <mapping class="org.corella.accesoDatos.hibernate.entities.Empleado"/>
+    <mapping class="org.corella.accesoDatos.hibernate.entities.EmpleadoDatosProf"/>
+    <mapping class="org.corella.accesoDatos.hibernate.entities.Proyecto"/>
+    <mapping class="org.corella.accesoDatos.hibernate.entities.ProyectoSede"/>
+    <mapping class="org.corella.accesoDatos.hibernate.entities.ProyectoSedeId"/>
+    <mapping class="org.corella.accesoDatos.hibernate.entities.Sede"/>
+
+    <!-- Mapeo EN FICHERO EXTERNO -->
+    <!--
+    <mapping resource="clase1.hbm.xml" />
+    <mapping resource="clase2.hbm.xml" />
+    -->
+    </session-factory>
+</hibernate-configuration>
