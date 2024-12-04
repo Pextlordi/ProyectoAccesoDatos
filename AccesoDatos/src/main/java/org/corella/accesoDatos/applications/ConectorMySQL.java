@@ -7,31 +7,23 @@ import org.corella.accesoDatos.entities.Salario;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.concurrent.Callable;
 
 public class ConectorMySQL {
-    private static final String driver = "com.mysql.cj.jdbc.Driver";
+    //private static final String driver = "com.mysql.cj.jdbc.Driver";
     private String hostname = "localhost";
     private String port = "3306";
-    private String database = "BaloncestoDB";
+    private String database = "employees";
     private String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false";
     private static final String username = "root";
     private static final String password = "admin";
 
-    public Connection conectarMySQL() throws SQLException{
+    public Connection conectarMySQL() throws SQLException {
         Connection conexion = null;
-        try {
-            Class.forName(driver);
-            conexion = DriverManager.getConnection(url, username, password);
-        } catch (ClassNotFoundException exception) {
-            exception.printStackTrace();
-        }
+        conexion = DriverManager.getConnection(url, username, password);
         return conexion;
     }
 
-    public String consultarJugadores(Connection conexion) throws SQLException{
+    public String consultarJugadores(Connection conexion) throws SQLException {
         Statement sentencia = conexion.createStatement();
         ResultSet resultadoConsulta = sentencia.executeQuery("SELECT * FROM Jugadores");
         String nombreJugador = null;
@@ -118,8 +110,17 @@ public class ConectorMySQL {
         cs.close(); //Se puede omitir usando un try catch
     }
 
-    private void ejecutarFichero(Connection conexion){
-        String nombreJugador = null;
+    private void accesoFuncion(Connection conexion) throws SQLException {
+        PreparedStatement sentencia = conexion.prepareStatement("SELECT SumaDeptAnoFunc(?,?)");
+        sentencia.setString(1, "Development");
+        sentencia.setInt(2, 1990);
+        ResultSet resultadoConsulta = sentencia.executeQuery();
+        while (resultadoConsulta.next()) {
+            System.out.println(resultadoConsulta.getString(1));
+        }
+    }
+
+    private void ejecutarFichero(Connection conexion) {
         ArrayList<JugBaloncestoBD> listaJugadores = new ArrayList<>();
         listaJugadores.add(new JugBaloncestoBD("Juan", "Base", 6.4));
         listaJugadores.add(new JugBaloncestoBD("Aitana", "Alero", 0.6));
@@ -150,7 +151,7 @@ public class ConectorMySQL {
             System.out.println(jugador2);
              */
             //empleadosPorDept(conexion);
-            //salariosempleados(conexion);
+            salariosempleados(conexion);
             //DepartmentsCRUD gestorDepartamentos = new DepartmentsCRUD(conexion);
             //gestorDepartamentos.insertar("aaaa", "Prueba");
             //gestorDepartamentos.actualizarNombre("aaaa", "Cambio1");
@@ -161,7 +162,8 @@ public class ConectorMySQL {
             //gestorDepartamentos.getDepartamentoNombre("Prueba");
             //callable(conexion);
             //callableFunction(conexion);
-            ejecutarFichero(conexion);
+            //ejecutarFichero(conexion);
+            //accesoFuncion(conexion);
             conexion.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
