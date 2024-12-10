@@ -17,6 +17,10 @@ public class Empleado implements Serializable {
     @JoinColumn(name = "id_depto", nullable = false)
     private Departamento idDepto;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "dni")
+    private EmpleadoDatosProf datosProfesionales;
+
     public String getDni() {
         return dni;
     }
@@ -39,6 +43,14 @@ public class Empleado implements Serializable {
 
     public void setIdDepto(Departamento idDepto) {
         this.idDepto = idDepto;
+    }
+
+    public EmpleadoDatosProf getDatosProfesionales() {
+        return datosProfesionales;
+    }
+
+    public void setDatosProfesionales(EmpleadoDatosProf datosProfesionales) {
+        this.datosProfesionales = datosProfesionales;
     }
 
 }

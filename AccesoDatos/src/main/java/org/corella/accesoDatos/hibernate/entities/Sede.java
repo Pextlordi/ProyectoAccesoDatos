@@ -5,8 +5,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "sede")
 public class Sede {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sede", nullable = false)
     private Integer id;
 
