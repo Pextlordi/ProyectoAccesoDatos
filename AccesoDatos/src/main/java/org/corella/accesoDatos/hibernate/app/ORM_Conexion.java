@@ -23,9 +23,12 @@ public class ORM_Conexion {
             empleadoDatosProf.setDni(empleado.getDni());
             empleadoDatosProf.setCategoria("02");
             empleadoDatosProf.setSueldoBrutoAnual(BigDecimal.valueOf(30000));
-            empleado.setDatosProfesionales(empleadoDatosProf);
             session.save(empleado);
+            Empleado encontrado = session.get(Empleado.class, empleado.getDni());
+            encontrado.setDatosProfesionales(empleadoDatosProf);
+            session.update(encontrado);
             transaccion.commit();
+
         } catch (Exception e) {
             e.printStackTrace();
             if (transaccion != null) {
@@ -38,8 +41,8 @@ public class ORM_Conexion {
         Transaction transaccion = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaccion = session.beginTransaction();
-            Empleado empleado = session.get(EmpleadoDatosProf.class, "123456").getEmpleado();
-            System.out.println(empleado.getNomEmp());
+            Empleado empleado = session.get(Empleado.class, "123456");
+            System.out.println(empleado.getDatosProfesionales().getSueldoBrutoAnual());
         } catch (Exception e) {
             e.printStackTrace();
             if (transaccion != null) {
@@ -54,8 +57,8 @@ public class ORM_Conexion {
             transaccion = session.beginTransaction();
             //Empleado empleado = session.find(Empleado.class,"123456");
             //Empleado empleado = session.get(Empleado.class, "123456");
-            Empleado empleado = session.load(Empleado.class, "123456");
-            BigDecimal sueldo = empleado.getDatosProfesionales().getSueldoBrutoAnual();
+            EmpleadoDatosProf empleadoDatosProf = session.load(EmpleadoDatosProf.class, "123456");
+            BigDecimal sueldo = empleadoDatosProf.getSueldoBrutoAnual();
             System.out.println(sueldo);
         } catch (Exception e) {
             e.printStackTrace();

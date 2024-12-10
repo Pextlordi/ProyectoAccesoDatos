@@ -10,11 +10,6 @@ public class EmpleadoDatosProf {
     @Column(name = "dni", nullable = false, length = 9)
     private String dni;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "dni", nullable = false)
-    private Empleado empleado;
-
     @Column(name = "categoria", nullable = false, length = 2)
     private String categoria;
 
@@ -27,14 +22,6 @@ public class EmpleadoDatosProf {
 
     public void setDni(String dni) {
         this.dni = dni;
-    }
-
-    public Empleado getEmpleado() {
-        return empleado;
-    }
-
-    public void setEmpleado(Empleado empleado) {
-        this.empleado = empleado;
     }
 
     public String getCategoria() {

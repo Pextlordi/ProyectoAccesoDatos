@@ -18,7 +18,7 @@ public class Empleado implements Serializable {
     private Departamento idDepto;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "dni")
+    @JoinColumn(name = "dni", nullable = false)
     private EmpleadoDatosProf datosProfesionales;
 
     public String getDni() {
