@@ -10,9 +10,11 @@ public class EmpleadoDatosProf {
     @Column(name = "dni", nullable = false, length = 9)
     private String dni;
 
+    @Basic
     @Column(name = "categoria", nullable = false, length = 2)
     private String categoria;
 
+    @Basic
     @Column(name = "sueldo_bruto_anual", precision = 8, scale = 2)
     private BigDecimal sueldoBrutoAnual;
 

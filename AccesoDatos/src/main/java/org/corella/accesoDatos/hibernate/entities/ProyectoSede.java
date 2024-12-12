@@ -20,9 +20,11 @@ public class ProyectoSede implements Serializable {
     @JoinColumn(name = "id_sede", nullable = false)
     private org.corella.accesoDatos.hibernate.entities.Sede idSede;
 
+    @Basic
     @Column(name = "f_inicio", nullable = false)
     private LocalDate fInicio;
 
+    @Basic
     @Column(name = "f_fin")
     private LocalDate fFin;
 

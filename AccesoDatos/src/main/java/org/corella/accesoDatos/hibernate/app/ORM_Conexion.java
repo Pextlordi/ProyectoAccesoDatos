@@ -9,6 +9,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
+import java.util.Set;
 
 public class ORM_Conexion {
     public void saveEntity() {
@@ -28,12 +30,52 @@ public class ORM_Conexion {
             encontrado.setDatosProfesionales(empleadoDatosProf);
             session.update(encontrado);
             transaccion.commit();
-
         } catch (Exception e) {
             e.printStackTrace();
             if (transaccion != null) {
                 transaccion.rollback();
             }
+        }
+    }
+
+    public void buscarDepartamentos() {
+        Transaction transaccion = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaccion = session.beginTransaction();
+            Sede sede = session.get(Sede.class, 3);
+            Set<Departamento> listaDepartamentos = sede.getDepartamentosSede();
+            for (Departamento departamento : listaDepartamentos) {
+                System.out.println(departamento.getNomDepto());
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+    }
+
+    public void insertarSede() {
+        Transaction transaccion = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaccion = session.beginTransaction();
+            Sede nuevaSede = new Sede();
+            nuevaSede.setNomSede("Helsinki");
+            session.save(nuevaSede);
+
+            Departamento nuevoDepartamento = new Departamento("QA", nuevaSede);
+            session.save(nuevoDepartamento);
+            nuevoDepartamento = new Departamento("Marketing", nuevaSede);
+            session.save(nuevoDepartamento);
+            session.refresh(nuevaSede);
+
+            if (nuevaSede.getDepartamentosSede() != null) {
+                for (Departamento departamento : nuevaSede.getDepartamentosSede()) {
+                    System.out.println(departamento.getNomDepto());
+                }
+            } else {
+                transaccion.rollback();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
         }
     }
 
@@ -52,19 +94,6 @@ public class ORM_Conexion {
     }
 
     public void run() {
-        Transaction transaccion = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaccion = session.beginTransaction();
-            //Empleado empleado = session.find(Empleado.class,"123456");
-            //Empleado empleado = session.get(Empleado.class, "123456");
-            EmpleadoDatosProf empleadoDatosProf = session.load(EmpleadoDatosProf.class, "123456");
-            BigDecimal sueldo = empleadoDatosProf.getSueldoBrutoAnual();
-            System.out.println(sueldo);
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (transaccion != null) {
-                transaccion.rollback();
-            }
-        }
+        insertarSede();
     }
 }
