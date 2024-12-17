@@ -26,7 +26,7 @@ public class Departamento implements Serializable {
     @JoinColumn(name = "id_sede", nullable = false)
     private Sede sede;
 
-    @OneToMany(mappedBy = "empleado")
+    @OneToMany(mappedBy = "idDepto")
     private Set<Empleado> empleadosDepartamento;
 
     public Departamento() {}

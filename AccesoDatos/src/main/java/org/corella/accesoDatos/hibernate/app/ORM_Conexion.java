@@ -8,8 +8,11 @@ import org.corella.accesoDatos.hibernate.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.Query;
 import java.math.BigDecimal;
+import java.sql.ResultSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class ORM_Conexion {
@@ -93,7 +96,28 @@ public class ORM_Conexion {
         }
     }
 
+    public void queryMethod() {
+        Transaction transaccion = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaccion = session.beginTransaction();
+            Query consulta = session.createQuery("FROM Sede sede where nomSede like '%k%'").setReadOnly(true);
+            Sede sede = (Sede) consulta.getSingleResult();
+            System.out.println(sede.getNomSede());
+            Query consultaUpdate = session.createQuery("UPDATE Sede sede SET nomSede = 'New York' WHERE nomSede = 'Dublin'");
+            int output = consultaUpdate.executeUpdate();
+            System.out.println(output);
+            Query consultaParam = session.createQuery("FROM Sede sede where nomSede like :param");
+            consultaParam.setParameter("param", "%o");
+            System.out.println("Conjunto");
+            for (Object res : consultaParam.getResultList()) {
+                Sede sedeRes = (Sede) res;
+                System.out.println(sedeRes.getNomSede());
+            }
+        }
+    }
+
+
     public void run() {
-        insertarSede();
+        queryMethod();
     }
 }
