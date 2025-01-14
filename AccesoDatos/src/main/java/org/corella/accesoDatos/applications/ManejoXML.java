@@ -1,6 +1,6 @@
 package org.corella.accesoDatos.applications;
 
-import org.exist.xmldb.LocalCollectionManagementService;
+//import org.exist.xmldb.LocalCollectionManagementService;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -10,7 +10,7 @@ import org.xmldb.api.base.*;
 import org.xmldb.api.modules.*;
 import org.xmldb.api.*;
 import javax.xml.transform.OutputKeys;
-import org.exist.xmldb.EXistResource;
+//import org.exist.xmldb.EXistResource;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -194,7 +194,7 @@ public class ManejoXML {
                 //dont forget to clean up!
 
                 if(res != null) {
-                    try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
+                    //try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
                 }
 
                 if(col != null) {
@@ -236,7 +236,7 @@ public class ManejoXML {
             //dont forget to clean up!
 
             if(res != null) {
-                try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
+                //try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
             }
 
             if(col != null) {
@@ -275,7 +275,7 @@ public class ManejoXML {
             //dont forget to clean up!
 
             if(res != null) {
-                try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
+                //try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
             }
 
             if(col != null) {
@@ -320,7 +320,7 @@ public class ManejoXML {
             //dont forget to clean up!
 
             if(res != null) {
-                try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
+                //try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
             }
 
             if(col != null) {
@@ -360,7 +360,7 @@ public class ManejoXML {
             //dont forget to clean up!
 
             if (res != null) {
-                try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
+                //try { ((EXistResource)res).freeResources(); } catch(XMLDBException xe) {xe.printStackTrace();}
             }
 
             if (col != null) {
